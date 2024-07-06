@@ -1,37 +1,37 @@
 import customtkinter as ctk
+import tkinter as tk
+from tkinter import ttk
+
 class LeftFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
         #DO skończenia def create_table(self):
         style = ttk.Style()
-        style.configure("Treeview", font=("Comfortaa",11))
-        style.configure("Treeview.Heading", font=("Comfortaa",15))
+        style.configure("Treeview", font=("Comfortaa",15))
+        style.configure("Treeview.Heading", font=("Comfortaa",20))
 
-        self.left_frame = ctk.CTkFrame(self,fg_color="transparent")
-        self.left_frame.pack(side="left",expand=True,fill="both")
+        #self.left_frame = ctk.CTkFrame(self,fg_color="transparent")
+        #self.left_frame.pack(side="left",expand=True,fill="both")
 
-        self.table = ttk.Treeview(self.left_frame,selectmode="browse",columns = ("from_account","person_name","amount","date","name","type"), show = "headings")
-        self.table.heading("from_account", text=tr.translate("Numer konta"))
-        self.table.heading("person_name", text=tr.translate("Imię osoby"))
-        self.table.heading("amount", text=tr.translate("Kwota"))
-        self.table.column("amount",width=75)
-        self.table.heading("date", text=tr.translate("Data transakcji"))
-        self.table.heading("name", text=tr.translate("Nazwa"))
-        self.table.heading("type", text=tr.translate("Typ"))
-        self.table.column("name",width=100)
-        self.table.column("date",width=130)
-        self.table.column("type",width=110)
+        self.table = ttk.Treeview(self,selectmode="browse",columns = ("lp","qty","price_per_unit","gotten_money_amount","payment_type","date"), show = "headings")
+        
+        self.configure_table_headings()
+
         self.table.pack(fill = "both", expand = True,padx=10,pady=10)
+        self.add_data((1,2,3,"nigdy",5,6))
 
-        self.right_frame = ctk.CTkFrame(self,fg_color="transparent")
-        self.right_frame.pack(side="right",expand=True,fill="both")
+    def configure_table_headings(self):
+        self.table.heading("lp", text="LP.")
+        self.table.heading("qty", text="Ilość")
+        self.table.heading("price_per_unit", text="Cena /szt")
+        #self.table.column("amount",width=75)
+        self.table.heading("gotten_money_amount", text="Przychód")
+        self.table.heading("payment_type", text="Metoda transakcji")
+        self.table.heading("date", text="Czas")
+        #self.table.column("name",width=100)
+        #self.table.column("date",width=130)
+        #self.table.column("type",width=110)
 
-        self.centered_frame = ctk.CTkFrame(self.right_frame,fg_color="transparent")
-        self.centered_frame.place(relx=0.5,rely=0.5,anchor="center")
-
-        self.label = ctk.CTkLabel(self.centered_frame,text=tr.translate("Z wybranymi:"),font=("Comfortaa",25))
-        self.label.pack(padx=10,pady=10)
-
-        self.renew_button = BankButton(self.centered_frame,image = ImagesLoader.images["renew_icon"],text=tr.translate("Ponów"),command = self.renew_transaction,fg_color="orange")
-        self.renew_button.pack(padx=10,pady=10)
+    def add_data(self, data_tuple):
+        self.table.insert(parent = "", index = tk.END, values = (data_tuple))

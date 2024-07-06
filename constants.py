@@ -1,2 +1,2 @@
-APP_NAME = "Kalkulator przychodu"
+APP_NAME = "Kalkulator dochodu"
 THEME = "light"
