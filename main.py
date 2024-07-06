@@ -2,9 +2,11 @@ import customtkinter as ctk
 import logging
 import widgets
 
+
 #imports constans from a local file
 import constants
-import widgets.left_frame
+from widgets import right_frame, left_frame
+
 
 
 class App(ctk.CTk):
@@ -14,12 +16,16 @@ class App(ctk.CTk):
 
         self.geometry(self.window_resolution)
         self.title(constants.APP_NAME)
+        #custom_fonts.set_default_font()
 
         self.create_widgets()
     
     def create_widgets(self):
         self.left_frame = widgets.left_frame.LeftFrame(self)
-        self.left_frame.pack(side="left", padx=10, pady=10, fill="both")
+        self.left_frame.pack(side="left", padx=10, pady=10, fill="both", expand=True)
+
+        self.right_frame = widgets.right_frame.RightFrame(self)
+        self.right_frame.pack(side="right", padx=10, pady=10, fill="both", expand=True)
 
 def set_theme():
     #The theme will be set to "system" if wrong name provided
