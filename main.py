@@ -1,12 +1,12 @@
 import customtkinter as ctk
 import logging
 import widgets
+from datetime import datetime 
 
 
 #imports constans from a local file
 import constants
 from widgets import right_frame, left_frame
-
 
 
 class App(ctk.CTk):
@@ -23,6 +23,7 @@ class App(ctk.CTk):
     def create_widgets(self):
         self.left_frame = widgets.left_frame.LeftFrame(self)
         self.left_frame.pack(side="left", padx=10, pady=10, fill="both", expand=True)
+        self.left_frame.add_data((1,17,"6.5zł",17,"Karta",datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
 
         self.right_frame = widgets.right_frame.RightFrame(self)
         self.right_frame.pack(side="right", padx=10, pady=10, fill="both", expand=True)

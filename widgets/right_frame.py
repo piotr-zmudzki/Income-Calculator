@@ -18,6 +18,9 @@ class CenterTextFrame(ctk.CTkFrame):
 
     def place_widgets(self):
         label = ctk.CTkLabel(master=self, text="Google",font=self.font)
-        label.place(relx=0.5, rely=0.5, anchor="center")
+        label.pack(pady=10)
+
+        label2 = ctk.CTkLabel(master=self, text="2Google",font=self.font)
+        label2.pack(pady=10)
 
     

@@ -22,16 +22,21 @@ class LeftFrame(ctk.CTkFrame):
         self.add_data((1,2,3,"nigdy",5,6))
 
     def configure_table_headings(self):
+        #configure headings names
         self.table.heading("lp", text="LP.")
         self.table.heading("qty", text="Ilość")
         self.table.heading("price_per_unit", text="Cena /szt")
-        #self.table.column("amount",width=75)
-        self.table.heading("gotten_money_amount", text="Przychód")
-        self.table.heading("payment_type", text="Metoda transakcji")
+        self.table.heading("gotten_money_amount", text="Przychód [zł]")
+        self.table.heading("payment_type", text="Typ")
         self.table.heading("date", text="Czas")
-        #self.table.column("name",width=100)
-        #self.table.column("date",width=130)
-        #self.table.column("type",width=110)
+        
+        #configure columns' other settings
+        self.table.column("lp",width=25)
+        self.table.column("qty",width=35)
+        self.table.column("price_per_unit",width=70)
+        self.table.column("gotten_money_amount",width=100)
+        self.table.column("payment_type",width=100)
+        self.table.column("date",width=180)
 
     def add_data(self, data_tuple):
         self.table.insert(parent = "", index = tk.END, values = (data_tuple))
