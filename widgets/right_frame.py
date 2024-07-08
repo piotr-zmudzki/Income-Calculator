@@ -1,5 +1,6 @@
 import customtkinter as ctk
 import main_font
+from widgets import title_value_widget
 
 
 class RightFrame(ctk.CTkFrame):
@@ -22,5 +23,9 @@ class CenterTextFrame(ctk.CTkFrame):
 
         label2 = ctk.CTkLabel(master=self, text="2Google",font=self.font)
         label2.pack(pady=10)
+
+        test = title_value_widget.NameValueWidget(self,label_name= "Dzisiejszy przychód", value= -1.99)
+        test.pack(pady=10)
+        test.update_value(0.82)
 
     
