@@ -1,6 +1,6 @@
 import customtkinter as ctk
 import logging
-import widgets
+
 from datetime import datetime 
 
 
@@ -8,6 +8,12 @@ from datetime import datetime
 import constants
 from widgets import right_frame, left_frame
 
+
+"""
+from modules import data_manager, table_record
+data_manager.update_with_data({"1":table_record.TableRecord(1,2,2,2,"Kassrsta",datetime.now())})
+data_manager.load_data()
+"""
 
 class App(ctk.CTk):
     def __init__(self):
@@ -21,11 +27,11 @@ class App(ctk.CTk):
         self.create_widgets()
     
     def create_widgets(self):
-        self.left_frame = widgets.left_frame.LeftFrame(self)
+        self.left_frame = left_frame.LeftFrame(self)
         self.left_frame.pack(side="left", padx=10, pady=10, fill="both", expand=True)
         self.left_frame.add_data((1,17,"6.5zł",17,"Karta",datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
 
-        self.right_frame = widgets.right_frame.RightFrame(self)
+        self.right_frame = right_frame.RightFrame(self)
         self.right_frame.pack(side="right", padx=10, pady=10, fill="both", expand=True)
 
 def set_theme():

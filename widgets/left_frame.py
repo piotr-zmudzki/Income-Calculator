@@ -1,12 +1,14 @@
 import customtkinter as ctk
 import tkinter as tk
 from tkinter import ttk
+from modules import data_manager
 
 class LeftFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
-        #DO skończenia def create_table(self):
+        self.load_and_insert_data()
+        
         style = ttk.Style()
         style.configure("Treeview", font=("Comfortaa",15))
         style.configure("Treeview.Heading", font=("Comfortaa",20))
@@ -19,7 +21,11 @@ class LeftFrame(ctk.CTkFrame):
         self.configure_table_headings()
 
         self.table.pack(fill = "both", expand = True,padx=10,pady=10)
-        self.add_data((1,2,3,"nigdy",5,6))
+        
+    def load_and_insert_data(self):
+        self.data_from_file = data_manager.load_data()
+        for sth in self.data_from_file:
+            print(self.data_from_file[sth].payment_type) #Not working yet
 
     def configure_table_headings(self):
         #configure headings names
