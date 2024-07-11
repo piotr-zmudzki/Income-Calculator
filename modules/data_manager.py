@@ -3,10 +3,13 @@ import os
 #DATABASE_NAME = "data.db"
 
 def load_data() -> list:
-    ifile=open(DATABASE_NAME, "r")
-    lines=ifile.readlines()
-    ifile.close()
-    data=[tuple(line.strip().split()) for line in lines]
+    try:
+        database = open(DATABASE_NAME, "r")
+    except FileNotFoundError:
+        database = open(DATABASE_NAME, "w+")
+    lines = database.readlines()
+    database.close()
+    data=[tuple(line.strip().split(",")) for line in lines]
 
     return data
 
@@ -14,7 +17,7 @@ def load_data() -> list:
 def append_data(tuple_list: list) -> None:
     print(tuple_list)
     with open(DATABASE_NAME, 'a') as database:
-        database.write('\n'.join('%s %s' % x for x in tuple_list))
+        database.write('\n'.join('%s,%s,%s,%s,%s,%s,%s' % x for x in tuple_list))
         database.write("\n")
 
 def delete_row_from_database(row_number: int) -> None:

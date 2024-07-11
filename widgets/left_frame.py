@@ -7,7 +7,7 @@ class LeftFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
-        self.load_and_insert_data()
+        
         
         style = ttk.Style()
         style.configure("Treeview", font=("Comfortaa",15))
@@ -16,17 +16,18 @@ class LeftFrame(ctk.CTkFrame):
         #self.left_frame = ctk.CTkFrame(self,fg_color="transparent")
         #self.left_frame.pack(side="left",expand=True,fill="both")
 
-        self.table = ttk.Treeview(self,selectmode="browse",columns = ("lp","qty","price_per_unit","gotten_money_amount","payment_type","date"), show = "headings")
+        self.table = ttk.Treeview(self,selectmode="browse",columns = ("lp","qty","price_per_unit","gotten_money_amount","payment_type","date","time"), show = "headings")
         
         self.configure_table_headings()
-
+        
         self.table.pack(fill = "both", expand = True,padx=10,pady=10)
         
-    def load_and_insert_data(self):
-        self.data_from_file = data_manager.load_data()
-        for sth in self.data_from_file:
-            print(self.data_from_file[sth].payment_type) #Not working yet
+        self.load_and_insert_data()
 
+    def load_and_insert_data(self):
+        loaded_data = data_manager.load_data()
+        for row in loaded_data:
+            self.add_data(row)
     def configure_table_headings(self):
         #configure headings names
         self.table.heading("lp", text="LP.")
@@ -34,7 +35,8 @@ class LeftFrame(ctk.CTkFrame):
         self.table.heading("price_per_unit", text="Cena /szt")
         self.table.heading("gotten_money_amount", text="Przychód [zł]")
         self.table.heading("payment_type", text="Typ")
-        self.table.heading("date", text="Czas")
+        self.table.heading("date", text="Data")
+        self.table.heading("time", text="Godzina")
         
         #configure columns' other settings
         self.table.column("lp",width=25)
@@ -42,7 +44,8 @@ class LeftFrame(ctk.CTkFrame):
         self.table.column("price_per_unit",width=70)
         self.table.column("gotten_money_amount",width=100)
         self.table.column("payment_type",width=100)
-        self.table.column("date",width=180)
+        self.table.column("date",width=145)
+        self.table.column("time",width=100)
 
-    def add_data(self, data_tuple):
+    def add_data(self, data_tuple: tuple):
         self.table.insert(parent = "", index = tk.END, values = (data_tuple))
