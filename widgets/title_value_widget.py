@@ -21,7 +21,7 @@ class NameValueWidget(ctk.CTkFrame):
         self.label1 = ctk.CTkLabel(self, text = f"{self.label_name}: ", font = self.font)
         self.label1.pack(side="left")
 
-        self.value_label = ctk.CTkLabel(self, text = self.value, font = self.font, text_color=self.get_value_color(self.value))
+        self.value_label = ctk.CTkLabel(self, text = f"{self.value} PLN", font = self.font, text_color=self.get_value_color(self.value))
         self.value_label.pack(side="left")
 
     def get_value_color(self, value_to_check):

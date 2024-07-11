@@ -1,13 +1,12 @@
 import customtkinter as ctk
 import tkinter as tk
 from tkinter import ttk
-from modules import data_manager
+from modules import data_manager, calculations
 
 class LeftFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
-        
         
         style = ttk.Style()
         style.configure("Treeview", font=("Comfortaa",15))
@@ -23,11 +22,15 @@ class LeftFrame(ctk.CTkFrame):
         self.table.pack(fill = "both", expand = True,padx=10,pady=10)
         
         self.load_and_insert_data()
+    def test(self):
+        print("testing")
 
     def load_and_insert_data(self):
         loaded_data = data_manager.load_data()
         for row in loaded_data:
             self.add_data(row)
+            calculations.sum(row[3], row[5])
+        print(calculations.general_sum)
     def configure_table_headings(self):
         #configure headings names
         self.table.heading("lp", text="LP.")
