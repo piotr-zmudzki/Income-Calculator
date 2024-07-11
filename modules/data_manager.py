@@ -1,20 +1,34 @@
-import shelve
 from constants import DATABASE_NAME
+import os
+#DATABASE_NAME = "data.db"
 
-#NOT WORKING WITH SHELVE
-#brakuje zapisania do pliku
-#i załadowania danych w left_frame 
-#loop + zapisywanie do listy obiektów
+def load_data() -> list:
+    ifile=open(DATABASE_NAME, "r")
+    lines=ifile.readlines()
+    ifile.close()
+    data=[tuple(line.strip().split()) for line in lines]
 
-def load_data():
-    with shelve.open(DATABASE_NAME) as data:
-        return dict(data)
+    return data
 
-def update_with_data(new_data):
-    with shelve.open({DATABASE_NAME}) as db:
-        previous_data_dict = load_data()
-        print(previous_data_dict, new_data)
-        merged = {**previous_data_dict, **new_data}
-        print(f"merged: {merged}")
-        #print(previous_data_dict, merged_dict, new_data)
-        db.update(merged)
+
+def append_data(tuple_list: list) -> None:
+    print(tuple_list)
+    with open(DATABASE_NAME, 'a') as database:
+        database.write('\n'.join('%s %s' % x for x in tuple_list))
+        database.write("\n")
+
+def delete_row_from_database(row_number: int) -> None:
+    with open(DATABASE_NAME, "r") as input:
+        with open("temp.txt", "w") as output:
+        # iterate all lines from file
+            for line in input:
+                # if line starts with substring 'time' then don't write it in temp file
+                if not line.strip("\n").startswith(str(row_number)):
+                    output.write(line)
+    # replace file with original name
+    os.replace('temp.txt', DATABASE_NAME)
+
+def edit_row_from_database(row_number: int, new_data: tuple) -> None:
+    delete_row_from_database(row_number)
+    append_data([(new_data)])
+
