@@ -5,6 +5,7 @@ from modules import data_manager, calculations
 from widgets import custom_button, new_row_panel
 from PIL import Image
 import globals
+import logging
 
 class LeftFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
@@ -78,10 +79,14 @@ class LeftFrame(ctk.CTkFrame):
         loaded_data = data_manager.load_data()
         for row in loaded_data:
             self.add_data(row)
-            calculations.sum(row[3], row[5])
-            globals.last_row_nr = row[0]
+            calculations.Calculator.sum(row[3], row[5])
+        
+    def update_last_row_nr(self, value):
+        try:
+            globals.last_row_nr = int(value) + 1
+        except UnboundLocalError:
+            logging.critical("Now row to add, setting to default")
             
-        print(calculations.general_sum)
     def configure_table_headings(self):
         #configure headings names
         self.table.heading("lp", text="LP.")
@@ -103,3 +108,5 @@ class LeftFrame(ctk.CTkFrame):
 
     def add_data(self, data_tuple: tuple):
         self.table.insert(parent = "", index = tk.END, values = (data_tuple))
+
+        self.update_last_row_nr(data_tuple[0])

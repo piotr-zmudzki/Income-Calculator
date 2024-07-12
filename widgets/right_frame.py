@@ -24,19 +24,19 @@ class CenterTextFrame(ctk.CTkFrame):
 
 
     def place_widgets(self):
-        total_income_widget = title_value_widget.NameValueWidget(self,label_name= "Całkowity dochód", value = calculations.general_sum)
+        total_income_widget = title_value_widget.NameValueWidget(self,label_name= "Całkowity dochód", value = calculations.Calculator.general_sum)
         total_income_widget.pack(pady=10)
 
         today_title = ctk.CTkLabel(self, text=f'- Dane z dzisiaj ({datetime.now().strftime("%Y-%m-%d")}) - ', font=ctk.CTkFont(family="Aptos Display", size=35))
         today_title.pack(pady=10)
 
-        today_gotten_money_widget = title_value_widget.NameValueWidget(self, label_name="Dzisiejszy przychód", value = calculations.today_income_sum)
+        today_gotten_money_widget = title_value_widget.NameValueWidget(self, label_name="Dzisiejszy przychód", value = calculations.Calculator.today_income_sum)
         today_gotten_money_widget.pack(pady=10)
 
-        today_expenses_widget = title_value_widget.NameValueWidget(self, label_name="Dzisiejsze koszty", value = calculations.today_expenses_sum)
+        today_expenses_widget = title_value_widget.NameValueWidget(self, label_name="Dzisiejsze koszty", value = calculations.Calculator.today_expenses_sum)
         today_expenses_widget.pack(pady=10)
 
-        today_income_widget = title_value_widget.NameValueWidget(self, label_name="Dzisiejszy dochód", value = calculations.today_general_sum)
+        today_income_widget = title_value_widget.NameValueWidget(self, label_name="Dzisiejszy dochód", value = calculations.Calculator.today_general_sum)
         today_income_widget.pack(pady=10)
 
         

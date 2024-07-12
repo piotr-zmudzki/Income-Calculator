@@ -1,6 +1,6 @@
 import customtkinter as ctk
 from widgets import custom_button
-from globals import last_row_nr
+import globals
 from datetime import datetime
 
 class NewRowQuestionPanel(ctk.CTkToplevel):
@@ -8,6 +8,8 @@ class NewRowQuestionPanel(ctk.CTkToplevel):
         super().__init__(*args, **kwargs)
         self.new_row_tuple = ()
         self.geometry("500x300")
+
+        print("new row", globals.last_row_nr)
 
         self.lift()
         self.attributes("-topmost", True)
@@ -41,7 +43,8 @@ class NewRowQuestionPanel(ctk.CTkToplevel):
     def finish(self):
         date_today = datetime.now().strftime("%d-%m-%Y")
         time_today = datetime.now().strftime("%H:%M:%S")
-        self.new_row_tuple = (last_row_nr,self.qty_entry.get(),self.price_per_unit_entry.get(),self.income_entry.get(),self.type_entry.get(),date_today,
+        print(globals.last_row_nr)
+        self.new_row_tuple = (globals.last_row_nr,self.qty_entry.get(),self.price_per_unit_entry.get(),self.income_entry.get(),self.type_entry.get(),date_today,
                               time_today)
         self.destroy()
         self.update()
