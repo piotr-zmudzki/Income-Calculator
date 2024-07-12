@@ -10,12 +10,21 @@ today_general_sum = 0
 today_expenses_sum = 0
 today_income_sum = 0
 
+
 def check_date(date):
-    date = datetime.strptime(date, '%Y-%m-%d')
+    date = datetime.strptime(date, '%d-%m-%Y')
     if date.date() == datetime.today().date():
         return 1
     else:
         return 0
+
+def round_everything():
+    everyting = [general_sum, expenses_sum, income_sum, today_expenses_sum, today_general_sum, today_income_sum]
+    for variable in everyting:
+        variable = round(variable,2)
+    print("rounded everything")
+    print(round(general_sum,2))
+
 def sum(value, date):
     global general_sum, expenses_sum, income_sum, today_general_sum, today_expenses_sum ,today_income_sum
     is_today_multiplier = check_date(date)
@@ -35,3 +44,4 @@ def sum(value, date):
     if value > 0:
         income_sum += value
         today_income_sum += (value*is_today_multiplier)
+    round_everything()
