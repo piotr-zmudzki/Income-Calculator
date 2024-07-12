@@ -19,11 +19,12 @@ def check_date(date):
         return 0
 
 def round_everything():
+    global variable
     everyting = [general_sum, expenses_sum, income_sum, today_expenses_sum, today_general_sum, today_income_sum]
     for variable in everyting:
         variable = round(variable,2)
-    print("rounded everything")
-    print(round(general_sum,2))
+        print(variable)
+
 
 def sum(value, date):
     global general_sum, expenses_sum, income_sum, today_general_sum, today_expenses_sum ,today_income_sum
