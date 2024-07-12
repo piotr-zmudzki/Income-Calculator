@@ -1,7 +1,7 @@
 import customtkinter as ctk
 import main_font
 from datetime import datetime
-from widgets import title_value_widget, custom_button
+from widgets import title_value_widget
 from modules import calculations
 from PIL import Image
 #test
@@ -17,11 +17,11 @@ class RightFrame(ctk.CTkFrame):
 
 
 class CenterTextFrame(ctk.CTkFrame):
-    def __init__(self, master, left_frame_reference, **kwargs):
-        super().__init__(master, left_frame_reference, **kwargs)
+    def __init__(self, master, **kwargs):
+        super().__init__(master, **kwargs)
         self.font = main_font.get_prefered_font()
-        self.left_frame_reference = left_frame_reference
         self.place_widgets()
+
 
     def place_widgets(self):
         total_income_widget = title_value_widget.NameValueWidget(self,label_name= "Całkowity dochód", value = calculations.general_sum)
@@ -39,10 +39,8 @@ class CenterTextFrame(ctk.CTkFrame):
         today_income_widget = title_value_widget.NameValueWidget(self, label_name="Dzisiejszy dochód", value = calculations.today_general_sum)
         today_income_widget.pack(pady=10)
 
-        plus_icon = ctk.CTkImage(light_image=Image.open("images/add_icon.png"),
-                                  size=(30, 30))
+        
 
         #missing command! - how to communicate between two frames like that?
-        add_entry_button = custom_button.CustomButton(self, text="Dodaj pozycję", image=plus_icon)
-        add_entry_button.pack(pady=20)
+        
     
