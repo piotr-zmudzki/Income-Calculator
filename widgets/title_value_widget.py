@@ -39,5 +39,5 @@ class NameValueWidget(ctk.CTkFrame):
         else:
             return self.value_color
     
-    def update_value(self, new_value):
+    def update_value(self, new_value: str):
         self.value_label.configure(text_color = self.get_value_color(new_value), text=new_value)

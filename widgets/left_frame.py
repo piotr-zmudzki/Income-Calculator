@@ -71,6 +71,9 @@ class LeftFrame(ctk.CTkFrame):
 
         self.add_data(tuple)
         data_manager.append_data([tuple])
+
+        calculations.Calculator.sum(tuple[3], tuple[5])
+        globals.labels_need_refresh = 1
     
     def edit_item(self, data_tuple: tuple):
         pass

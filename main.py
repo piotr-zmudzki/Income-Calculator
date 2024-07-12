@@ -8,13 +8,6 @@ from datetime import datetime
 import constants
 from widgets import right_frame, left_frame
 
-
-"""
-from modules import data_manager, table_record
-data_manager.update_with_data({"1":table_record.TableRecord(1,2,2,2,"Kassrsta",datetime.now())})
-data_manager.load_data()
-"""
-
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
