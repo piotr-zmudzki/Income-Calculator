@@ -41,7 +41,7 @@ class LeftFrame(ctk.CTkFrame):
         edit_icon = ctk.CTkImage(light_image=Image.open("images/edit_icon.png"),
                                   size=(30, 30))
 
-        self.edit_entry_button = custom_button.CustomButton(self.bottom_frame, text="Edytuj", image=edit_icon, fg_color="yellow")
+        self.edit_entry_button = custom_button.CustomButton(self.bottom_frame, text="Edytuj", image=edit_icon, fg_color="yellow", command = self.edit_item)
         self.edit_entry_button.pack(pady=20, padx=10, side="left")
 
         delete_icon = ctk.CTkImage(light_image=Image.open("images/delete_icon.png"),
@@ -60,23 +60,37 @@ class LeftFrame(ctk.CTkFrame):
         self.edit_entry_button.configure(state = "enabled")
         self.delete_entry_button.configure(state = "enabled")
 
-    def add_item(self):
+    def open_new_panel(self):
         panel = new_row_panel.NewRowQuestionPanel()
         self.disable_buttons()
         tuple = panel.get_tuple()
         if len(tuple) == 0:
             self.enable_buttons()
-            return
+            return False
         self.enable_buttons()
-
+        return tuple
+    
+    def add_item(self):
+        tuple = self.open_new_panel()
+        if not tuple:
+            return
         self.add_data(tuple)
         data_manager.append_data([tuple])
 
         calculations.Calculator.sum(tuple[3], tuple[5])
         globals.labels_need_refresh = 1
     
-    def edit_item(self, data_tuple: tuple):
-        pass
+    def edit_item(self):
+        # Get selected item to Edit
+        selected_item = self.table.selection()[0]
+        row_number = self.table.item(self.table.focus())["values"][0]
+        print(row_number)
+        data_tuple = self.open_new_panel()
+        if not data_tuple:
+            return
+        self.table.item(selected_item, values=data_tuple)
+        
+        data_manager.edit_row_from_database(row_number, data_tuple)
 
     def load_and_insert_data(self):
         loaded_data = data_manager.load_data()

@@ -25,8 +25,8 @@ def delete_row_from_database(row_number: int) -> None:
         with open("temp.txt", "w") as output:
         # iterate all lines from file
             for line in input:
-                # if line starts with substring 'time' then don't write it in temp file
-                if not line.strip("\n").startswith(str(row_number)):
+                #if not line.strip("\n").startswith(str(row_number)):
+                if not line.strip("\n").split(",")[0] == str(row_number):
                     output.write(line)
     # replace file with original name
     os.replace('temp.txt', DATABASE_NAME)
