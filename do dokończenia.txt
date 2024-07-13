@@ -1,10 +1,2 @@
 trzeba zrobić walidację i pobieranie danych z newrowquestionpanel
-dane trafią do left_frame i doda się wtedy do tabelki i do pliku
 
-edit_item -> na whatsupie treeview edit i edycja w pliku
-
-delete_item -> tak samo
-
-labely w righyt_frame? -> przez global left_frame zmieni na 1, a right_frame co jakiś czas odczytuje z globals.py (threading), i wtedy zaaktualizuje z calculations.py
-
-W calculations; przekształcić na klasę, a variables zrobić cls.variable (nie działa rounding)

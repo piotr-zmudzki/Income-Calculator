@@ -47,8 +47,9 @@ class LeftFrame(ctk.CTkFrame):
         delete_icon = ctk.CTkImage(light_image=Image.open("images/delete_icon.png"),
                                   size=(30, 30))
 
-        self.delete_entry_button = custom_button.CustomButton(self.bottom_frame, text="Usuń", image=delete_icon, fg_color="red")
+        self.delete_entry_button = custom_button.CustomButton(self.bottom_frame, text="Usuń", image=delete_icon, fg_color="red", command = self.delete_item)
         self.delete_entry_button.pack(pady=20, padx=10, side="left")
+
     #This section applies to buttons only 
     def disable_buttons(self):
         self.add_entry_button.configure(state = "disabled")
@@ -90,7 +91,29 @@ class LeftFrame(ctk.CTkFrame):
             return
         self.table.item(selected_item, values=data_tuple)
         
+        
         data_manager.edit_row_from_database(row_number, data_tuple)
+        calculations.Calculator.reset_variables()
+        self.clear_treeview()
+        self.load_and_insert_data()
+        globals.labels_need_refresh = 1
+    
+    def delete_item(self):
+        selected_item = self.table.selection()[0]
+        row_number = self.table.item(self.table.focus())["values"][0]
+        data_tuple_3 = self.table.item(self.table.focus())["values"][3]
+        data_tuple_5 = self.table.item(self.table.focus())["values"][5]
+        self.table.delete(selected_item)
+
+        data_manager.delete_row_from_database(row_number)
+
+        calculations.Calculator.sum(data_tuple_3, data_tuple_5,deduct=True)
+        globals.labels_need_refresh = 1
+    
+    #here ends only for buttons section
+    def clear_treeview(self):
+        for item in self.table.get_children():
+            self.table.delete(item)
 
     def load_and_insert_data(self):
         loaded_data = data_manager.load_data()

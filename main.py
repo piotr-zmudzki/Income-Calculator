@@ -1,21 +1,15 @@
 import customtkinter as ctk
-import logging
-
-from datetime import datetime 
-
-
-#imports constans from a local file
 import constants
 from widgets import right_frame, left_frame
 
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
+        #set window resolution
         self.window_resolution = "1000x550"
-
         self.geometry(self.window_resolution)
+
         self.title(constants.APP_NAME)
-        #custom_fonts.set_default_font()
 
         self.create_widgets()
     

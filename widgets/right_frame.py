@@ -6,6 +6,7 @@ from modules import calculations
 import threading
 import time
 import globals
+from PIL import Image
 
 
 class RightFrame(ctk.CTkFrame):
@@ -30,9 +31,9 @@ class CenterTextFrame(ctk.CTkFrame):
     def check_for_refresh_necessity_loop(self):
         while True:
             time.sleep(1)
-            print("checking...")
+            #print("checking...")
             if globals.labels_need_refresh == 1:
-                print("needs refresh!")
+                #print("needs refresh!")
                 print(calculations.Calculator.general_sum)
                 self.total_income_widget.update_value(calculations.Calculator.general_sum)
                 self.today_gotten_money_widget.update_value(calculations.Calculator.today_income_sum)
@@ -41,6 +42,13 @@ class CenterTextFrame(ctk.CTkFrame):
                 globals.labels_need_refresh = 0
                 
     def place_widgets(self):
+
+        stats_icon = ctk.CTkImage(light_image=Image.open("images/stats_icon.png"),
+                                  size=(84,84))
+        
+        self.stats_widget = ctk.CTkLabel(self,text="", image=stats_icon)
+        self.stats_widget.pack(pady=20)
+
         self.total_income_widget = title_value_widget.NameValueWidget(self,label_name= "Całkowity dochód", value = calculations.Calculator.general_sum)
         self.total_income_widget.pack(pady=10)
 

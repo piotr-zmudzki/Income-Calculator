@@ -10,9 +10,16 @@ class Calculator:
     today_general_sum = 0
     today_expenses_sum = 0
     today_income_sum = 0
-
     def __init__(self) -> None:
         pass
+    
+    def reset_variables():
+        Calculator.general_sum = 0  #sum of both incomes and expenses
+        Calculator.expenses_sum = 0  #sum of expenses (only negative values)
+        Calculator.income_sum = 0  #sum of income (only positive values)
+        Calculator.today_general_sum = 0
+        Calculator.today_expenses_sum = 0
+        Calculator.today_income_sum = 0
 
     @staticmethod
     def check_date(date):
@@ -32,10 +39,15 @@ class Calculator:
         rounded_values = [round(variable, ROUND_TO_DIGIT) for variable in everyting]
         variable_names = ["general_sum", "expenses_sum", "income_sum", "today_expenses_sum", "today_general_sum", "today_income_sum"]
         for i, variable in enumerate(variable_names):
-            globals()[variable] = rounded_values[i]
+            exec(f"Calculator.{variable} = {rounded_values[i]}")
+            #globals()[variable] = rounded_values[i]
 
     @staticmethod
-    def sum(value, date):
+    def sum(value, date, deduct = False):
+        deduct_multiplier = 1
+        if deduct:
+            deduct_multiplier = -1
+            
         is_today_multiplier = Calculator.check_date(date)
         print(is_today_multiplier)
         try:
@@ -43,13 +55,14 @@ class Calculator:
         except:
             print(f"Sorry, you can't do math on '{value}' because it's {type(value)}. What have you thought?")
             return
-        Calculator.general_sum += value
-        Calculator.today_general_sum += (value*is_today_multiplier)
+        Calculator.general_sum += (value*deduct_multiplier)
+        Calculator.today_general_sum += (value*is_today_multiplier*deduct_multiplier)
         if value < 0:
-            Calculator.expenses_sum += value
+            Calculator.expenses_sum += (value*deduct_multiplier)
             print(value)
-            Calculator.today_expenses_sum += (value*is_today_multiplier)
+            Calculator.today_expenses_sum += (value*is_today_multiplier*deduct_multiplier)
         if value > 0:
-            Calculator.income_sum += value
-            Calculator.today_income_sum += (value*is_today_multiplier)
+            Calculator.income_sum += (value*deduct_multiplier)
+            Calculator.today_income_sum += (value*is_today_multiplier*deduct_multiplier)
         Calculator.round_everything()
+
