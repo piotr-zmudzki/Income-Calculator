@@ -31,7 +31,8 @@ class CenterTextFrame(ctk.CTkFrame):
     def check_for_refresh_necessity_loop(self):
         while True:
             time.sleep(1)
-            #print("checking...")
+            if globals.window_got_deleted:
+                break
             if globals.labels_need_refresh == 1:
                 #print("needs refresh!")
                 print(calculations.Calculator.general_sum)
