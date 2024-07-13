@@ -3,3 +3,4 @@ __pycache__/
 /do dokończenia.txt
 modules/__pycache__/
 widgets/__pycache__/
+sales.db
