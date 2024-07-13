@@ -1,2 +1,0 @@
-trzeba zrobić walidację i pobieranie danych z newrowquestionpanel
-
