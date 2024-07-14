@@ -2,7 +2,7 @@ import customtkinter as ctk
 import tkinter as tk
 from tkinter import ttk
 from modules import data_manager, calculations
-from widgets import custom_button, new_row_panel
+from widgets import custom_button, new_row_panel, notification
 from PIL import Image
 import globals
 import logging
@@ -24,8 +24,11 @@ class LeftFrame(ctk.CTkFrame):
         self.configure_table_headings()
         
         self.table.pack(fill = "both", expand = True,padx=10,pady=10)
-        
-        self.load_and_insert_data()
+
+        try:
+            self.load_and_insert_data()
+        except:
+            notification.Notification(self,"Coś poszło nie tak\n(ładowanie danych)", "block")
 
     def place_bottom_frame(self):
         self.bottom_frame = ctk.CTkFrame(self)
@@ -94,6 +97,8 @@ class LeftFrame(ctk.CTkFrame):
         #sums new data
         calculations.Calculator.sum(tuple[3], tuple[5])
         globals.labels_need_refresh = 1
+
+        notification.Notification(self,"Dodawanie zakończone","done")
     
     def edit_item(self):
         # Get selected item
@@ -119,7 +124,13 @@ class LeftFrame(ctk.CTkFrame):
         self.load_and_insert_data()
         globals.labels_need_refresh = 1
     
+        notification.Notification(self,"Edytowanie zakończone","done")
+        
     def delete_item(self):
+        if not notification.Notification(self,"Czy napewno?","ask",True).get_input():
+            return
+
+
         selected_item = self.table.selection()[0]
 
         row_number = self.table.item(self.table.focus())["values"][0]
@@ -135,6 +146,7 @@ class LeftFrame(ctk.CTkFrame):
         calculations.Calculator.sum(income, date,deduct=True)
         globals.labels_need_refresh = 1
     
+        notification.Notification(self,"Usuwanie zakończone","done")
 
     def clear_treeview(self):
         for item in self.table.get_children():

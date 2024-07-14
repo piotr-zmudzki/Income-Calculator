@@ -3,6 +3,8 @@ import constants
 import globals
 from widgets import right_frame, left_frame
 
+from widgets import notification
+
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -16,7 +18,7 @@ class App(ctk.CTk):
         self.protocol("WM_DELETE_WINDOW", self.update_window_got_closed)
 
         self.create_widgets()
-    
+        
     def create_widgets(self):
         self.left_frame = left_frame.LeftFrame(self)
         self.left_frame.pack(side="left", padx=10, pady=10, fill="both", expand=True)
@@ -24,6 +26,7 @@ class App(ctk.CTk):
         self.right_frame = right_frame.RightFrame(self)
         self.right_frame.pack(side="right", padx=10, pady=10, fill="both", expand=True)
     
+        
     def update_window_got_closed(self):
         globals.window_got_deleted = True
         self.destroy()
