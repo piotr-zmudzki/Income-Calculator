@@ -1,10 +1,12 @@
 import customtkinter as ctk
 from PIL import Image
 import winsound
+import threading
+import time
 
 
 class Notification(ctk.CTkToplevel):
-    def __init__(self, master, notify_text="Some text", icon_type="alert", question_mode = False, *args, **kwargs):
+    def __init__(self, master, notify_text="Some text", icon_type="alert", question_mode = False, flashing_mode = False, *args, **kwargs):
         super().__init__(master,*args, **kwargs)
         self.geometry("300x180")
         self.title("Powiadomienie")
@@ -16,10 +18,15 @@ class Notification(ctk.CTkToplevel):
         self.notify_text = notify_text
         self.icon_type = icon_type
         self.question_mode = question_mode
+        self.flashing_mode = flashing_mode
 
         self.play_sound()
         self.load_images()
         self.place_widgets()
+
+        if self.flashing_mode:
+            self.flashing_thread = threading.Thread(target = self.turn_on_flashing,args=())
+            self.flashing_thread.start()
         
     def play_sound(self):
         if self.question_mode:
@@ -66,6 +73,14 @@ class Notification(ctk.CTkToplevel):
         except AttributeError:
             return True
     
+    def turn_on_flashing(self):
+        time.sleep(0.5)
+        while self.winfo_exists():
+            self.icon_widget.pack_forget()
+            time.sleep(0.5)
+            self.icon_widget.pack()
+            time.sleep(0.5)
+
     def place_widgets(self):
         self.left_frame = ctk.CTkFrame(self, fg_color="transparent")
         self.left_frame.pack(side="left", padx=10)
