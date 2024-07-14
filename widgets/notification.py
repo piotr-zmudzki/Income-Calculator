@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from PIL import Image
+import winsound
 
 
 class Notification(ctk.CTkToplevel):
@@ -16,9 +17,15 @@ class Notification(ctk.CTkToplevel):
         self.icon_type = icon_type
         self.question_mode = question_mode
 
+        self.play_sound()
         self.load_images()
         self.place_widgets()
-
+        
+    def play_sound(self):
+        if self.question_mode:
+            winsound.PlaySound("SystemExit", winsound.SND_ASYNC)
+        else:
+            winsound.PlaySound("SystemHand", winsound.SND_ASYNC)
     def load_images(self):
         self.alert_icon = ctk.CTkImage(light_image=Image.open("images/alert_icon.ico"),
                                   size=(64,64))
