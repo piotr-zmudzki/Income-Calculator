@@ -11,15 +11,14 @@ class LeftFrame(ctk.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
 
+        #place frame for buttons
         self.place_bottom_frame()
 
         style = ttk.Style()
         style.configure("Treeview", font=("Comfortaa",15))
         style.configure("Treeview.Heading", font=("Comfortaa",20))
 
-        #self.left_frame = ctk.CTkFrame(self,fg_color="transparent")
-        #self.left_frame.pack(side="left",expand=True,fill="both")
-
+        #create treeview (table)
         self.table = ttk.Treeview(self,selectmode="browse",columns = ("lp","qty","price_per_unit","gotten_money_amount","payment_type","date","time"), show = "headings")
         
         self.configure_table_headings()
@@ -62,70 +61,100 @@ class LeftFrame(ctk.CTkFrame):
         self.delete_entry_button.configure(state = "enabled")
 
     def open_new_panel(self):
+        #creates class instance (ctk.CTkToplevel)
         panel = new_row_panel.NewRowQuestionPanel()
+        
+        #disable buttons
         self.disable_buttons()
+
+        #get user input from NewRowQuestionPanel
         tuple = panel.get_tuple()
         if len(tuple) == 0:
             self.enable_buttons()
             return False
+        
+        #enable buttons
         self.enable_buttons()
+        
+        #return user input from Toplevel
         return tuple
     
+    #adds item both to the treeview and the database
     def add_item(self):
         tuple = self.open_new_panel()
         if not tuple:
             return
+        
+        #appends a row to the treeview
         self.add_data(tuple)
+
+        #appends a row to the database
         data_manager.append_data([tuple])
 
+        #sums new data
         calculations.Calculator.sum(tuple[3], tuple[5])
         globals.labels_need_refresh = 1
     
     def edit_item(self):
-        # Get selected item to Edit
+        # Get selected item
         selected_item = self.table.selection()[0]
         row_number = self.table.item(self.table.focus())["values"][0]
-        print(row_number)
+
+
         data_tuple = self.open_new_panel()
         if not data_tuple:
             return
-        self.table.item(selected_item, values=data_tuple)
         
+        #modifying treeview is not necessary, because it wll be reloaded anyways
+        #self.table.item(selected_item, values=data_tuple)
         
+        #edit row in database
         data_manager.edit_row_from_database(row_number, data_tuple)
+
+        # Set sums to 0
         calculations.Calculator.reset_variables()
+        
+        # Clear treeview and recalculate everything
         self.clear_treeview()
         self.load_and_insert_data()
         globals.labels_need_refresh = 1
     
     def delete_item(self):
         selected_item = self.table.selection()[0]
+
         row_number = self.table.item(self.table.focus())["values"][0]
-        data_tuple_3 = self.table.item(self.table.focus())["values"][3]
-        data_tuple_5 = self.table.item(self.table.focus())["values"][5]
+        income = self.table.item(self.table.focus())["values"][3]
+        date = self.table.item(self.table.focus())["values"][5]
+
+        # Delete row from treeview (table)
         self.table.delete(selected_item)
 
+        # Modify the database
         data_manager.delete_row_from_database(row_number)
 
-        calculations.Calculator.sum(data_tuple_3, data_tuple_5,deduct=True)
+        calculations.Calculator.sum(income, date,deduct=True)
         globals.labels_need_refresh = 1
     
-    #here ends only for buttons section
+
     def clear_treeview(self):
         for item in self.table.get_children():
             self.table.delete(item)
 
+    # Adds data to the treeview and sums data
     def load_and_insert_data(self):
         loaded_data = data_manager.load_data()
         for row in loaded_data:
             self.add_data(row)
+            #                           income,  date
             calculations.Calculator.sum(row[3], row[5])
-        
+    
+    # Updates the number (LP. ) of last_row
+    # Useful in creating data tuple in new_row_panel
     def update_last_row_nr(self, value):
         try:
             globals.last_row_nr = int(value) + 1
         except UnboundLocalError:
-            logging.critical("Now row to add, setting to default")
+            logging.critical("No rows")
             
     def configure_table_headings(self):
         #configure headings names
