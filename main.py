@@ -3,7 +3,6 @@ import constants
 import globals
 from widgets import right_frame, left_frame
 
-from widgets import notification
 
 class App(ctk.CTk):
     def __init__(self):
