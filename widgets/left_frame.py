@@ -27,8 +27,9 @@ class LeftFrame(ctk.CTkFrame):
 
         try:
             self.load_and_insert_data()
-        except:
-            notification.Notification(self,"Coś poszło nie tak\n(ładowanie danych)", "block")
+        except Exception as e:
+            notification.Notification(self,f"Coś poszło nie tak\n(ładowanie danych)", "block")
+            logging.critical(e)
 
     def place_bottom_frame(self):
         self.bottom_frame = ctk.CTkFrame(self)
@@ -187,7 +188,26 @@ class LeftFrame(ctk.CTkFrame):
         self.table.column("date",width=145)
         self.table.column("time",width=100)
 
+        #configure style
+        style = ttk.Style()
+        style.configure("Treeview", 
+                        background = "silver"
+                )
+        style.map("Treeview", background = [("selected", "#6c827b")])
+
+
+        #configure treeview tags
+        self.table.tag_configure("cost", background="#fa5252", foreground="white")
+        self.table.tag_configure("income", background="#099c1f", foreground="white")
+    
+    #gets tag name based on income/cost
+    def get_tag(self, income):
+        if float(income) < 0:
+            return "cost"
+        else:
+            return "income"
+
     def add_data(self, data_tuple: tuple):
-        self.table.insert(parent = "", index = tk.END, values = (data_tuple))
+        self.table.insert(parent = "", index = tk.END, values = (data_tuple), tags=(self.get_tag(data_tuple[3])))
 
         self.update_last_row_nr(data_tuple[0])
